@@ -1,19 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const KEY = '136e9303af57d83b29ddf02ef48e9efe';
 const BASE_URL = `https://api.themoviedb.org/3/trending/all/day?api_key=${KEY}`;
 
-export const Home = () => {
+const Home = () => {
 
     const [films, setFilms] = useState([]);
-
+    useEffect(() => {
     fetch(`${BASE_URL}`)
-      .then(response => {
-        return response.json();
-      })
-      .then(films => {
-        setFilms(films.results);
-      });
+        .then(response => response.json())
+        .then(films => setFilms(films.results));
+    }, []);
     
     return (
       <div>
@@ -32,3 +29,5 @@ export const Home = () => {
       </div>
     );
 };
+
+export default Home;
