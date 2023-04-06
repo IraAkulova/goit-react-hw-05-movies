@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const KEY = '136e9303af57d83b29ddf02ef48e9efe';
 const BASE_URL = `https://api.themoviedb.org/3/trending/all/day?api_key=${KEY}`;
@@ -20,7 +21,7 @@ const Home = () => {
             {films.map(film => {
               return (
                 <li key={film.id}>
-                  <a href={film.poster_path}>{film.title || film.name}</a>
+                  <Link to={`${film.id}`} >{film.title || film.name}</Link>
                 </li>
               );
             })}

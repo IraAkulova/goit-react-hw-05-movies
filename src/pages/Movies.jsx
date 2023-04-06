@@ -1,53 +1,36 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { debounce } from 'debounce';
+import _debounce from 'debounce';
 
 const KEY = '136e9303af57d83b29ddf02ef48e9efe';
 const BASE_URL = `https://api.themoviedb.org/3/search/movie?api_key=${KEY}`;
 
-const Movies = ({onSubmit}) => {
-    const [films, setFilms] = useState([]);
-    const [searchQuery, setSearchQuery] = useState('');
+const Movies = () => {
+  const [query, setQuery] = useState('');
+  const [films, setFilms] = useState([]);
+  let value = '';
 
+  const onInputChange = (e) => {
+    value = e.target.value;
+    setQuery(value);
+  };
 
-
-    const handleInputChange = e => setSearchQuery(e.currentTarget.value);
-
-    const handleSubmit = e => {
-        e.preventDefault();
-        if (searchQuery.trim() === '') {
-          return alert('enter search query');
-        };
-        console.log(searchQuery);
-        setSearchQuery(searchQuery);
-        reset();
-      };
-
-    const reset = () => {
-        setSearchQuery('');
-    };
-
-    useEffect(() => {
-        if (!searchQuery) {
-          return;
-        };
-      fetch(`${BASE_URL}&query=${searchQuery}&language=en-US&page=1&include_adult=false`)
-        .then(response => response.json())
-        .then(films => setFilms(films.results));
-    }, [searchQuery]);
-
-    console.log(films);
-
+  const onFormSubmit = (e) => {
+    e.preventDefault();
+    fetch(`${BASE_URL}&query=${query}&language=en-US&page=1&include_adult=false`)
+      .then(response => response.json())
+      .then(films => setFilms(films.results));
+  };
+  
     return (
       <div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={onFormSubmit}>
           <input
             type="text"
             autoComplete="off"
             autoFocus
             placeholder="Search movies"
-            onChange={handleInputChange}
-            value={searchQuery}
+            onChange={_debounce(onInputChange, 300)}
           ></input>
           <button type="submit">Search</button>
         </form>
@@ -56,7 +39,7 @@ const Movies = ({onSubmit}) => {
           {films.map(film => {
             return (
               <li key={film.id}>
-                <Link to={`${film.id}`}>{film.title || film.name}</Link>
+                <Link to={`${film.id}`} >{film.title || film.name}</Link>
               </li>
             );
           })}
