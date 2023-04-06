@@ -24,7 +24,7 @@ const Reviews = () => {
     <div>
       <h2>Reviews</h2>
       <ul>
-        {reviews ? (
+        {reviews.length !== 0 ? (
           reviews.map(review => (
             <li key={review.id}>
               <p>Author: {review.author}</p>
