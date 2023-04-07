@@ -1,5 +1,7 @@
 import { Outlet, NavLink } from 'react-router-dom';
-import css from './SharedLayout.module.css'
+import { Suspense } from 'react';
+import css from './SharedLayout.module.css';
+import Loader from '../../components/loader/Loader';
 
 const SharedLayout = () => {
   return (
@@ -12,8 +14,9 @@ const SharedLayout = () => {
           Movies
         </NavLink>
       </nav>
-
-      <Outlet />
+      <Suspense fallback={<Loader />}>
+        <Outlet />
+      </Suspense>
     </div>
   );
 };
