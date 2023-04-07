@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/183.532a1bd8.chunk.css","mappings":"AAAA,kBACI,iBACJ,CAEA,uBACI,eAAgB,CAChB,SACJ,CACA,IAEI,WAAY,CADZ,WAEJ","sources":["components/cast/Cast.module.css"],"sourcesContent":[".cast{\n    padding-left: 20px;\n}\n\n.castList{\n    list-style: none;\n    padding: 0;\n}\nimg{\n    width: 200px;\n    height: auto;\n}"],"names":[],"sourceRoot":""}
