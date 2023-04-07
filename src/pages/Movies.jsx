@@ -16,7 +16,6 @@ const Movies = () => {
     setSearchParams({ query: e.target.value });
   };
 
-  console.log(query);
   useEffect(() => {
         setVisibleList(false);
         fetch(
@@ -29,6 +28,7 @@ const Movies = () => {
   const onFormSubmit = (e) => {
     e.preventDefault();
     setVisibleList(true);
+
   };
   
     return (
@@ -45,15 +45,16 @@ const Movies = () => {
         </form>
 
         <ul>
-          {visibleList && films.map(film => {
-            return (
-              <li key={film.id}>
-                <Link to={`${film.id}`} state={{ from: location }}>
-                  {film.title || film.name}
-                </Link>
-              </li>
-            );
-          })}
+          {visibleList &&
+            films.map(film => {
+              return (
+                <li key={film.id}>
+                  <Link to={`${film.id}`} state={{ from: location }}>
+                    {film.title || film.name}
+                  </Link>
+                </li>
+              );
+            })}
         </ul>
       </div>
     );

@@ -1,5 +1,7 @@
 import { useParams, NavLink, Outlet, useLocation, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import css from './MovieDetails.module.css'
+// import NotFound from 'pages/NotFound';
 
 const KEY = '136e9303af57d83b29ddf02ef48e9efe';
 const BASE_URL = `https://api.themoviedb.org/3/movie`;
@@ -24,12 +26,15 @@ const MovieDetails = () => {
   console.log(movie);
 
   return (
-    <div>
-      <Link to={backLinkHref}>Back to movies</Link>
+    <div className={css.container}>
+      <Link to={backLinkHref} className={css.back}>
+        Back to movies
+      </Link>
       <article>
         <img
           src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
           alt={movie.title}
+          className={css.poster}
         />
         <div>
           <h2>
@@ -42,15 +47,17 @@ const MovieDetails = () => {
           <p>{movie.genres?.map(genre => genre.name).join(' ')}</p>
         </div>
       </article>
-      <h4> Additional information</h4>
-      <ul>
-        <li key={movie.id}>
-          <NavLink to={`/movies/${movie.id}/cast`}>Cast</NavLink>
-        </li>
-        <li key={movie.imdb_id}>
-          <NavLink to={`/movies/${movie.imdb_id}/reviews`}>Reviews</NavLink>
-        </li>
-      </ul>
+      <div className={css.information}>
+        <h4> Additional information</h4>
+        <ul>
+          <li key={movie.id}>
+            <NavLink to={`/movies/${movie.id}/cast`}>Cast</NavLink>
+          </li>
+          <li key={movie.imdb_id}>
+            <NavLink to={`/movies/${movie.imdb_id}/reviews`}>Reviews</NavLink>
+          </li>
+        </ul>
+      </div>
       <Outlet />
     </div>
   );

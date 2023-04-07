@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import css from './Cast.module.css';
 
 const KEY = '136e9303af57d83b29ddf02ef48e9efe';
 const BASE_URL = `https://api.themoviedb.org/3/movie`;
@@ -20,9 +21,8 @@ const Cast = () => {
     console.log(cast);
 
     return (
-      <div>
-        <h2>Cast</h2>
-        <ul>
+      <div className={css.cast}>
+        <ul className={css.castList}>
           {cast?.map(artist => (
             <li key={artist.id}>
               <img

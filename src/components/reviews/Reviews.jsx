@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import css from './Reviews.module.css';
 
 const KEY = '136e9303af57d83b29ddf02ef48e9efe';
 const BASE_URL = `https://api.themoviedb.org/3/movie`;
@@ -21,9 +22,9 @@ const Reviews = () => {
   console.log(reviews);
 
   return (
-    <div>
+    <div className={css.reviews}>
       <h2>Reviews</h2>
-      <ul>
+      <ul className={css.reviewsList}>
         {reviews.length !== 0 ? (
           reviews.map(review => (
             <li key={review.id}>
