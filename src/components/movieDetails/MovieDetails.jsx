@@ -1,4 +1,4 @@
-import { useParams, NavLink, Outlet } from 'react-router-dom';
+import { useParams, NavLink, Outlet, useLocation, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 const KEY = '136e9303af57d83b29ddf02ef48e9efe';
@@ -7,6 +7,9 @@ const BASE_URL = `https://api.themoviedb.org/3/movie`;
 const MovieDetails = () => {
   const [movie, setMovie] = useState({});
   const { movieId } = useParams();
+
+  const location = useLocation();
+  const backLinkHref = location.state?.from ?? '/movies';
 
   useEffect(() => {
     fetch(`${BASE_URL}/${movieId}?api_key=${KEY}&language=en-US`)
@@ -22,6 +25,7 @@ const MovieDetails = () => {
 
   return (
     <div>
+      <Link to={backLinkHref}>Back to movies</Link>
       <article>
         <img
           src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
