@@ -1,7 +1,7 @@
 import { useParams, NavLink, Outlet, useLocation, Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import css from './MovieDetails.module.css'
-// import NotFound from 'pages/NotFound';
+import Loader from '../../components/loader/Loader';
 
 const KEY = '136e9303af57d83b29ddf02ef48e9efe';
 const BASE_URL = `https://api.themoviedb.org/3/movie`;
@@ -58,7 +58,9 @@ const MovieDetails = () => {
           </li>
         </ul>
       </div>
-      <Outlet />
+      <Suspense fallback={<Loader />}>
+        <Outlet />
+      </Suspense>
     </div>
   );
 };
