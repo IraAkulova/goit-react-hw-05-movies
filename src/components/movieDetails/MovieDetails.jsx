@@ -1,5 +1,5 @@
 import { useParams, NavLink, Outlet, useLocation, Link } from 'react-router-dom';
-import { useEffect, useState, Suspense } from 'react';
+import { useEffect, useState, Suspense, useRef } from 'react';
 import css from './MovieDetails.module.css'
 import Loader from '../../components/loader/Loader';
 
@@ -11,7 +11,7 @@ const MovieDetails = () => {
   const { movieId } = useParams();
 
   const location = useLocation();
-  const backLinkHref = location.state?.from ?? '/movies';
+  const backLinkHref = useRef(location.state?.from ?? '/');
 
   useEffect(() => {
     fetch(`${BASE_URL}/${movieId}?api_key=${KEY}&language=en-US`)
@@ -27,7 +27,7 @@ const MovieDetails = () => {
 
   return (
     <div className={css.container}>
-      <Link to={backLinkHref} className={css.back}>
+      <Link to={backLinkHref.current} className={css.back}>
         Back to movies
       </Link>
       <article>

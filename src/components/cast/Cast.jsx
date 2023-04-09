@@ -18,8 +18,7 @@ const Cast = () => {
           setCast(film.cast);
         });
     }, [movieId]);
-    console.log(cast);
-
+ 
     return (
       <div className={css.cast}>
         <ul className={css.castList}>
