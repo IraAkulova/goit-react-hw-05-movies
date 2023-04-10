@@ -14,16 +14,24 @@ const MovieDetails = () => {
   const backLinkHref = useRef(location.state?.from ?? '/');
 
   useEffect(() => {
-    fetch(`${BASE_URL}/${movieId}?api_key=${KEY}&language=en-US`)
-      .then(response => {
-        return response.json();
-      })
-      .then(film => {
-        setMovie(film);
-      });
+      fetch(`${BASE_URL}/${movieId}?api_key=${KEY}&language=en-US`)
+        .then(response => {
+          return response.json();
+        })
+        .then(film => {
+          if (!film) {
+            return Promise.reject(
+              new Error(`Oops, there is no movie with ID ${movieId}`)
+            );
+          }
+          setMovie(film);
+        })
+        .catch(error => console.log(error));
   }, [movieId]);
+  console.log(movie)
 
-  console.log(movie);
+  const year = new Date(movie.release_date).getFullYear();
+  if (!movie.status) {console.log(1)};
 
   return (
     <div className={css.container}>
@@ -38,9 +46,9 @@ const MovieDetails = () => {
         />
         <div>
           <h2>
-            {movie.title} ({movie.release_date})
+            {movie.title} ({year})
           </h2>
-          <p>User score: {movie.vote_average * 10}%</p>
+          <p>User score: {Math.round(movie.vote_average * 10)}%</p>
           <h3>Overview</h3>
           <p>{movie.overview}</p>
           <h3>Genres</h3>

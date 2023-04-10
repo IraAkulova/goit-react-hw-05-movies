@@ -7,6 +7,7 @@ const BASE_URL = `https://api.themoviedb.org/3/movie`;
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
+  const [error, setError] = useState(null);
   const { movieId } = useParams();
 
   useEffect(() => {
@@ -14,15 +15,21 @@ const Reviews = () => {
       .then(response => {
         return response.json();
       })
-        .then(film => {
-          console.log(film);
+      .then(film => {
+        if (!film) {
+          return Promise.reject(
+            new Error(`Oops, there is no movie with ID ${movieId}`)
+          );
+        };
         setReviews(film.results);
-      });
+      })
+      .catch(error => setError(error));
   }, [movieId]);
   console.log(reviews);
 
   return (
     <div className={css.reviews}>
+      {error && <h2>{error.message}</h2>}
       <h2>Reviews</h2>
       <ul className={css.reviewsList}>
         {reviews.length !== 0 ? (

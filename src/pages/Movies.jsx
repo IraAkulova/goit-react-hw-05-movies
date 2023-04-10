@@ -9,6 +9,7 @@ const Movies = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [visibleList, setVisibleList] = useState(false);
   const [inputValue, setInputValue] = useState('');
+  const [error, setError] = useState(null);
   const query = searchParams.get('query');
   const location = useLocation();
 
@@ -23,9 +24,23 @@ const Movies = () => {
   };
 
   useEffect(() => {
-    fetch(`${BASE_URL}&query=${query}&language=en-US&page=1&include_adult=false`)
+    if (!query) { return };
+    fetch(
+      `${BASE_URL}&query=${query}&language=en-US&page=1&include_adult=false`
+    )
       .then(response => response.json())
-      .then(films => setFilms(films.results));
+      .then(films => {
+        setFilms(films.results);
+        if (films.results.length === 0) {
+          return Promise.reject(
+            new Error(`Oops, there is no movie with title ${query}`)
+          );
+        };
+        
+      })
+      .catch(error => {
+        setError(error);
+      console.log(error)});
   }, [query]);
 
   useEffect(() => {
@@ -46,19 +61,22 @@ const Movies = () => {
           <button type="submit">Search</button>
         </form>
 
-        <ul>
-          {visibleList &&
-            query &&
-            films.map(film => {
-              return (
-                <li key={film.id}>
-                  <Link to={`${film.id}`} state={{ from: location }}>
-                    {film.title || film.name}
-                  </Link>
-                </li>
-              );
-            })}
-        </ul>
+        {error && films.length === 0 && <h2>{error.message}</h2>}
+        {films.length > 0 && (
+          <ul>
+            {visibleList &&
+              query &&
+              films.map(film => {
+                return (
+                  <li key={film.id}>
+                    <Link to={`${film.id}`} state={{ from: location }}>
+                      {film.title || film.name}
+                    </Link>
+                  </li>
+                );
+              })}
+          </ul>
+        )}
       </div>
     );
 };
